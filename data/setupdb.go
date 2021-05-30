@@ -1,4 +1,4 @@
-package data
+package main
 
 import (
 	"database/sql"
@@ -22,5 +22,4 @@ func init() {
 }
 
 func main() {
-	fmt.Println("testing connect to postgresdb")
 }
