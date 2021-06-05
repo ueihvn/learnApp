@@ -1,4 +1,4 @@
-package main
+package data
 
 import (
 	"database/sql"
@@ -19,7 +19,4 @@ func init() {
 		fmt.Println(Db)
 	}
 
-}
-
-func main() {
 }

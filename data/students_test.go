@@ -1,6 +1,7 @@
-package main
+package data
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -11,23 +12,45 @@ func TestCreate(t *testing.T) {
 		UserName: "htl",
 		Password: "password",
 	}
+
+	st1 := Student{
+		Mail:     "st1mail@gmail.com",
+		FullName: "fullname st1 là 2",
+		UserName: "st1username",
+		Password: "st1password",
+	}
+
 	err := st.Create()
+	if err != nil {
+		t.Error(err)
+	}
+	if st.Id == 0 {
+		t.Error("wrong id, was not expecting 0")
+	}
+
+	err = st1.Create()
+
 	if err != nil {
 		t.Error(err)
 	}
 	if st.Id == 0 {
 		t.Error("wrong id, was expecting 0")
 	}
-	if st.Mail != "mail@gmail.com" {
-		t.Error("wrong mail,was expecting 'mail@gmail.com' but got", st.Mail)
+}
+
+func TestGetStudent(t *testing.T) {
+	st, err := GetStudent(4)
+
+	if err != nil {
+		t.Error(err)
 	}
-	if st.FullName != "hei lt" {
-		t.Error("wrong fullname,was expecting 'hei lt' but got", st.FullName)
-	}
-	if st.UserName != "htl" {
-		t.Error("wrong username,was expecting 'htl' but got", st.UserName)
-	}
-	if st.Password != "password" {
-		t.Error("wrong password,was expecting 'password' but got", st.Password)
+	fmt.Println(st)
+}
+
+func TestDeleteStudent(t *testing.T) {
+	st := Student{Id: 3}
+	err := st.Delete()
+	if err != nil {
+		t.Error(err)
 	}
 }

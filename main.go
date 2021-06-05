@@ -2,6 +2,8 @@ package main
 
 import (
 	"net/http"
+
+	_ "github.com/ueihvn/learnApp/data"
 )
 
 func index(w http.ResponseWriter, r *http.Request) {

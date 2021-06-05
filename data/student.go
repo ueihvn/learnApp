@@ -1,4 +1,4 @@
-package main
+package data
 
 type Student struct {
 	Id       int
@@ -48,6 +48,6 @@ func (st *Student) Update() (err error) {
 }
 
 func (st *Student) Delete() (err error) {
-	_, err = Db.Exec("delete from posts where id = $1", st.Id)
+	_, err = Db.Exec("delete from students where id = $1", st.Id)
 	return
 }
