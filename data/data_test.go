@@ -5,7 +5,33 @@ import (
 	"testing"
 )
 
-func TestCreate(t *testing.T) {
+//test for Subject
+func TestInitSubject(t *testing.T) {
+	err := InitSubject()
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestGetSubjectByType(t *testing.T) {
+	subject, err := GetSubjectByType("Toán Học")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(subject)
+}
+
+func TestGetAllSubject(t *testing.T) {
+	subjects, err := GetAllSubject()
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(subjects)
+}
+
+// test for Student
+
+func TestCreateStudent(t *testing.T) {
 	st := Student{
 		Mail:     "mail@gmail.com",
 		FullName: "hei lt",
@@ -24,22 +50,16 @@ func TestCreate(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if st.Id == 0 {
-		t.Error("wrong id, was not expecting 0")
-	}
 
 	err = st1.Create()
-
 	if err != nil {
 		t.Error(err)
 	}
-	if st.Id == 0 {
-		t.Error("wrong id, was expecting 0")
-	}
+
 }
 
 func TestGetStudent(t *testing.T) {
-	st, err := GetStudent(4)
+	st, err := GetStudentById(4)
 
 	if err != nil {
 		t.Error(err)

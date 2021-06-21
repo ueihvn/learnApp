@@ -1,8 +1,8 @@
 package data
 
 type Subject struct {
-	Id   int
-	Type string
+	Id   int    `db:"id"`
+	Type string `db:"type"`
 }
 
 func (subject *Subject) Create() (err error) {
@@ -15,22 +15,22 @@ func (subject *Subject) Create() (err error) {
 
 func GetSubjectByType(subject_type string) (subject Subject, err error) {
 	subject = Subject{Type: subject_type}
-	_, err = Db.Exec("select id, type from subjects where type = $1", subject_type)
+	err = Db.QueryRow("select id from subjects where type = $1", subject_type).Scan(&subject.Id)
 
 	if err != nil {
 		return
 	}
-	return subject, err
+	return
 }
 
 func GetAllSubject() (subjects []Subject, err error) {
-	rows, err := Db.Query("select id, type from subjects")
+	rows, err := Db.Queryx("select id, type from subjects")
 	if err != nil {
 		return
 	}
 	for rows.Next() {
 		subject := Subject{}
-		err = rows.Scan(&subject.Id, &subject.Type)
+		err = rows.StructScan(&subject)
 		if err != nil {
 			return
 		}
@@ -41,11 +41,25 @@ func GetAllSubject() (subjects []Subject, err error) {
 }
 
 func (subject *Subject) Update() (err error) {
-	_, err = Db.Exec("update subjects set type = $2 where id = $1", &subject.Id, &subject.Type)
+	_, err = Db.Exec(`update subjects set type = $2 where id = $1`, &subject.Id, &subject.Type)
 	return
 }
 
 func (subject *Subject) Delete() (err error) {
 	_, err = Db.Exec("delete from subjects where id = $1", &subject.Id)
 	return
+}
+
+func InitSubject() error {
+	subjects := []Subject{
+		{Type: "Toán Học"},
+		{Type: "Vật Lý"},
+		{Type: "Hóa Học"},
+		{Type: "Sinh Học"},
+	}
+	_, err := Db.NamedExec(`insert into subjects (type) values (:type)`, subjects)
+	if err != nil {
+		return err
+	}
+	return nil
 }

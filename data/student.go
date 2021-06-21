@@ -1,38 +1,38 @@
 package data
 
 type Student struct {
-	Id       int
-	Mail     string
-	FullName string
-	UserName string
-	Password string
+	Id       int    `db:"id"`
+	Mail     string `db:"mail"`
+	FullName string `db:"full_name"`
+	UserName string `db:"user_name"`
+	Password string `db:"password"`
 }
 
 func (st *Student) Create() (err error) {
-	statement := "insert into students(mail, full_name, user_name, password) values ($1, $2, $3, $4) returning id"
-	stmt, err := Db.Prepare(statement)
+	statementx := "insert into students(mail, full_name, user_name, password) values ($1, $2, $3, $4) returning id"
+	stmt, err := Db.Preparex(statementx)
 	if err != nil {
 		return
 	}
 	defer stmt.Close()
-	err = stmt.QueryRow(st.Mail, st.FullName, st.UserName, st.Password).Scan(&st.Id)
+	err = stmt.QueryRowx(st.Mail, st.FullName, st.UserName, st.Password).Scan(&st.Id)
 	return
 }
 
-func GetStudent(id int) (st Student, err error) {
+func GetStudentById(id int) (st Student, err error) {
 	st = Student{}
-	err = Db.QueryRow("select id, mail, full_name, user_name, password from students where id = $1", id).Scan(&st.Id, &st.Mail, &st.FullName, &st.UserName, &st.Password)
+	err = Db.QueryRowx("select id, mail, full_name, user_name, password from students where id = $1", id).StructScan(&st)
 	return
 }
 
 func GetStudentsWithNumber(limit int) (sts []Student, err error) {
-	rows, err := Db.Query("select id, mail, full_name, user_name, password from students limit $1", limit)
+	rows, err := Db.Queryx("select id, mail, full_name, user_name, password from students limit $1", limit)
 	if err != nil {
 		return
 	}
 	for rows.Next() {
 		st := Student{}
-		err = rows.Scan(&st.Id, &st.Mail, &st.FullName, &st.UserName, &st.Password)
+		err = rows.StructScan(&st)
 		if err != nil {
 			return
 		}
@@ -43,7 +43,7 @@ func GetStudentsWithNumber(limit int) (sts []Student, err error) {
 }
 
 func (st *Student) Update() (err error) {
-	_, err = Db.Exec("update students set mail = $2, full_name = $3, user_name = $4, password = $5 where id = $1", st.Id, st.Mail, st.FullName, st.UserName, st.Password)
+	_, err = Db.NamedExec(`update students set mail =:mail, full_name =:full_name, user_name =:user_name, password =:password where id =:id`, st)
 	return
 }
 
