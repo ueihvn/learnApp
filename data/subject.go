@@ -7,15 +7,12 @@ type Subject struct {
 
 func (subject *Subject) Create() (err error) {
 	err = Db.QueryRow("insert into subjects (type) values ($1) returning id", subject.Type).Scan(&subject.Id)
-	if err != nil {
-		return
-	}
 	return
 }
 
-func GetSubjectByType(subject_type string) (subject Subject, err error) {
-	subject = Subject{Type: subject_type}
-	err = Db.QueryRow("select id from subjects where type = $1", subject_type).Scan(&subject.Id)
+func GetSubjectById(subjectId int) (subject Subject, err error) {
+	subject = Subject{Id: subjectId}
+	err = Db.QueryRow("select id from subjects where id = $1", subjectId).Scan(&subject.Type)
 
 	if err != nil {
 		return

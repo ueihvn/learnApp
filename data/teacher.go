@@ -1,7 +1,7 @@
 package data
 
 type Teacher struct {
-	Id        int    `db: "id"`
+	Id        int    `db:"id"`
 	Mail      string `db:"mail"`
 	FullName  string `db:"full_name"`
 	UserName  string `db:"user_name"`
@@ -29,13 +29,18 @@ func GetTeachersBySubjectId(subjectId int) (teachers []Teacher, err error) {
 	}
 	for rows.Next() {
 		teacher := Teacher{}
-		err = rows.StructScan(teacher)
+		err = rows.StructScan(&teacher)
 		if err != nil {
 			return
 		}
 		teachers = append(teachers, teacher)
 	}
 	rows.Close()
+	return
+}
+
+func GetTeacherById(teacherId int) (teacher Teacher, err error) {
+	err = Db.QueryRowx("select id, mail, full_name, user_name, password, subject_id from teachers where id = $1", teacherId).StructScan(&teacher)
 	return
 }
 
