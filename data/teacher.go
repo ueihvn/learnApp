@@ -16,9 +16,6 @@ func (teacher *Teacher) CreateTeacher() (err error) {
 		teacher.UserName,
 		teacher.Password,
 		teacher.SubjectId).Scan(&teacher.Id)
-	if err != nil {
-		return
-	}
 	return
 }
 
@@ -68,6 +65,6 @@ func (teacher *Teacher) Update() (err error) {
 }
 
 func (teacher *Teacher) Delete() (err error) {
-	_, err = Db.Exec("delete from students where id = $1", teacher.Id)
+	_, err = Db.Exec("delete from teachers where id = $1", teacher.Id)
 	return
 }

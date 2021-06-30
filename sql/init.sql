@@ -30,14 +30,14 @@ CREATE TABLE class (
   id int generated always as identity PRIMARY KEY,
   name varchar(255) unique not null,
   teacher_id int not null,
-  is_use boolean not null
+  is_use boolean default 'true'
 );
 
 CREATE TABLE courses (
   id int generated always as identity PRIMARY KEY,
   class_id int not null,
-  start_date timestamp not null,
-  end_date timestamp not null,
+  start_date  date not null,
+  end_date date not null,
   grade int not null
 );
 
@@ -50,6 +50,7 @@ CREATE TABLE class_session (
   id int generated always as identity PRIMARY KEY,
   class_id int not null,
   dayofweek_id int not null,
+  is_use boolean default 'true',
   start_time time not null,
   end_time time not null
 );

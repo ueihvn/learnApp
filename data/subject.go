@@ -47,16 +47,21 @@ func (subject *Subject) Delete() (err error) {
 	return
 }
 
-func InitSubject() error {
+func InitSubject() (err error) {
 	subjects := []Subject{
 		{Type: "Toán Học"},
 		{Type: "Vật Lý"},
 		{Type: "Hóa Học"},
 		{Type: "Sinh Học"},
 	}
-	_, err := Db.NamedExec(`insert into subjects (type) values (:type)`, subjects)
-	if err != nil {
-		return err
+
+	for _, subject := range subjects {
+		err = subject.Create()
+		if err != nil {
+			return
+		}
+
 	}
-	return nil
+
+	return
 }

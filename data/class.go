@@ -40,6 +40,6 @@ func (class *Class) Update() (err error) {
 }
 
 func (class *Class) Delete() (err error) {
-	_, err = Db.NamedExec(`delete class where id =:id`, class)
+	_, err = Db.NamedExec(`delete from class where id =:id`, class)
 	return
 }

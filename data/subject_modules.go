@@ -14,7 +14,7 @@ func (subjectModule *SubjectModule) Create() (err error) {
 }
 
 func GetSubjectModulesBySubjectId(subjectId int) (subjectModules []SubjectModule, err error) {
-	rows, err := Db.Queryx("select id, subject_id, tpye from subject_modules where subject_id = $1", subjectId)
+	rows, err := Db.Queryx("select id, subject_id, type from subject_modules where subject_id = $1", subjectId)
 
 	if err != nil {
 		return
@@ -43,6 +43,6 @@ func (subjectModule *SubjectModule) Update() (err error) {
 }
 
 func (subjectModule *SubjectModule) Delete() (err error) {
-	_, err = Db.NamedExec(`delete subject_modules where id = :id`, subjectModule)
+	_, err = Db.NamedExec(`delete from subject_modules where id = :id`, subjectModule)
 	return
 }
