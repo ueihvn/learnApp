@@ -13,14 +13,6 @@ func TestInitSubject(t *testing.T) {
 	}
 }
 
-func TestGetSubjectByType(t *testing.T) {
-	subject, err := GetSubjectByType("Toán Học")
-	if err != nil {
-		t.Error(err)
-	}
-	fmt.Println(subject)
-}
-
 func TestGetAllSubject(t *testing.T) {
 	subjects, err := GetAllSubject()
 	if err != nil {

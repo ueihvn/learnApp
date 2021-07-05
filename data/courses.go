@@ -52,3 +52,13 @@ func GetCoursesByClassId(classId int) (courses []Course, err error) {
 	defer rows.Close()
 	return
 }
+
+func (course *Course) Update() (err error) {
+	_, err = Db.NamedExec(`update courses set class_id= :class_id, start_date= :start_date, end_date= :end_date, grade= :grade where id= :id`, course)
+	return
+}
+
+func (course *Course) Delete() (err error) {
+	_, err = Db.NamedExec(`delete from courses where id=:id`, course)
+	return
+}
