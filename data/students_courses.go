@@ -3,7 +3,7 @@ package data
 type StudentCourse struct {
 	StudentId int
 	CourseId  int
-	JoinAt    string
+	JoinAt    string //yyyy-mm-dd
 }
 
 func (studentCourse *StudentCourse) Create() (err error) {

@@ -46,3 +46,61 @@ func (subjectModule *SubjectModule) Delete() (err error) {
 	_, err = Db.NamedExec(`delete from subject_modules where id = :id`, subjectModule)
 	return
 }
+
+func InitSubjectModules() (err error) {
+	subjectInit, err := GetAllSubjectInit()
+	if err != nil {
+		return err
+	}
+
+	subjectModules := []SubjectModule{
+		{
+			SubjectId: subjectInit["Toán Học"].Id,
+			Type:      "Lượng Giác",
+		},
+		{
+			SubjectId: subjectInit["Toán Học"].Id,
+			Type:      "Xác Xuất",
+		},
+		{
+			SubjectId: subjectInit["Vật Lý"].Id,
+			Type:      "Chuyển động cơ",
+		},
+		{
+			SubjectId: subjectInit["Vật Lý"].Id,
+			Type:      "Điện xoay chiều",
+		},
+		{
+			SubjectId: subjectInit["Hóa Học"].Id,
+			Type:      "Hóa vô cơ",
+		},
+		{
+			SubjectId: subjectInit["Hóa Học"].Id,
+			Type:      "Hóa hữu cơ",
+		},
+		{
+			SubjectId: subjectInit["Sinh Học"].Id,
+			Type:      "Di truyền",
+		},
+		{
+			SubjectId: subjectInit["Sinh Học"].Id,
+			Type:      "ADN",
+		},
+		{
+			SubjectId: subjectInit["Tiếng Anh"].Id,
+			Type:      "Idiom",
+		},
+		{
+			SubjectId: subjectInit["Tiếng Anh"].Id,
+			Type:      "Pronunciation",
+		},
+	}
+
+	for _, sm := range subjectModules {
+		err = sm.Create()
+		if err != nil {
+			return err
+		}
+	}
+	return
+}

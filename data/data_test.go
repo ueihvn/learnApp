@@ -5,6 +5,14 @@ import (
 	"testing"
 )
 
+// test for subject_module
+func TestInitSubjectModules(t *testing.T) {
+	err := InitSubjectModules()
+	if err != nil {
+		t.Error(err)
+	}
+}
+
 //test for Subject
 func TestInitSubject(t *testing.T) {
 	err := InitSubject()
@@ -22,7 +30,6 @@ func TestGetAllSubject(t *testing.T) {
 }
 
 // test for Student
-
 func TestCreateStudent(t *testing.T) {
 	st := Student{
 		Mail:     "mail@gmail.com",
@@ -51,7 +58,7 @@ func TestCreateStudent(t *testing.T) {
 }
 
 func TestGetStudent(t *testing.T) {
-	st, err := GetStudentById(4)
+	st, err := GetStudentById(1)
 
 	if err != nil {
 		t.Error(err)
@@ -60,7 +67,7 @@ func TestGetStudent(t *testing.T) {
 }
 
 func TestDeleteStudent(t *testing.T) {
-	st := Student{Id: 3}
+	st := Student{Id: 1}
 	err := st.Delete()
 	if err != nil {
 		t.Error(err)

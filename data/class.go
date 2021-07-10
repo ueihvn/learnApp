@@ -1,5 +1,7 @@
 package data
 
+import "log"
+
 type Class struct {
 	Id        int    `db:"id"`
 	Name      string `db:"name"`
@@ -8,7 +10,7 @@ type Class struct {
 }
 
 func (class *Class) Create() (err error) {
-	err = Db.QueryRow("insert into class (name, teacher_id, is_use) values($1, $2, $3) returning id").Scan(&class.Id)
+	err = Db.QueryRow("insert into class (name, teacher_id) values($1, $2) returning id", class.Name, class.TeacherId).Scan(&class.Id)
 	return
 }
 
@@ -41,5 +43,57 @@ func (class *Class) Update() (err error) {
 
 func (class *Class) Delete() (err error) {
 	_, err = Db.NamedExec(`delete from class where id =:id`, class)
+	return
+}
+
+func InitClass() (err error) {
+	mapTeacher, err := GetAllTeacherInit()
+	if err != nil {
+		return
+	}
+
+	classes := []Class{
+		{
+			Name:      "class 1 cua thay1",
+			TeacherId: mapTeacher["thay1"].Id,
+		},
+		{
+			Name:      "class 1 cua thay2",
+			TeacherId: mapTeacher["thay2"].Id,
+		},
+		{
+			Name:      "class 1 cua thay3",
+			TeacherId: mapTeacher["thay3"].Id,
+		},
+		{
+			Name:      "class 1 cua thay4",
+			TeacherId: mapTeacher["thay4"].Id,
+		},
+		{
+			Name:      "class 1 cua thay5",
+			TeacherId: mapTeacher["thay5"].Id,
+		},
+	}
+
+	for _, class := range classes {
+		err = class.Create()
+		if err != nil {
+			return
+		}
+	}
+	return
+}
+
+func GetAllClassInit() (mapClass map[int]Class, err error) {
+	mapClass = map[int]Class{}
+	classInit := []int{1, 2, 3, 4, 5}
+
+	for _, classId := range classInit {
+		class, err := GetClassById(classId)
+		if err != nil {
+			log.Fatal(err)
+		}
+		mapClass[classId] = class
+	}
 	return
 }

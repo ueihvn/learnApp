@@ -1,5 +1,7 @@
 package data
 
+import "log"
+
 type Subject struct {
 	Id   int    `db:"id"`
 	Type string `db:"type"`
@@ -11,12 +13,12 @@ func (subject *Subject) Create() (err error) {
 }
 
 func GetSubjectById(subjectId int) (subject Subject, err error) {
-	subject = Subject{Id: subjectId}
 	err = Db.QueryRow("select id from subjects where id = $1", subjectId).Scan(&subject.Type)
+	return
+}
 
-	if err != nil {
-		return
-	}
+func GetSubjectByType(subjectType string) (subject Subject, err error) {
+	err = Db.QueryRowx("select id, type from subjects where type = $1", subjectType).StructScan(&subject)
 	return
 }
 
@@ -53,6 +55,7 @@ func InitSubject() (err error) {
 		{Type: "Vật Lý"},
 		{Type: "Hóa Học"},
 		{Type: "Sinh Học"},
+		{Type: "Tiếng Anh"},
 	}
 
 	for _, subject := range subjects {
@@ -61,6 +64,21 @@ func InitSubject() (err error) {
 			return
 		}
 
+	}
+
+	return
+}
+
+func GetAllSubjectInit() (mapSubject map[string]Subject, err error) {
+	mapSubject = map[string]Subject{}
+	subjectInit := []string{"Toán Học", "Vật Lý", "Hóa Học", "Sinh Học", "Tiếng Anh"}
+
+	for _, subjectType := range subjectInit {
+		subject, err := GetSubjectByType(subjectType)
+		if err != nil {
+			log.Fatal(err)
+		}
+		mapSubject[subjectType] = subject
 	}
 
 	return
