@@ -31,3 +31,39 @@ func init() {
 		log.Fatalf("%+v\n", err)
 	}
 }
+
+func InitDataDb() (err error) {
+	err = InitSubject()
+	if err != nil {
+		return
+	}
+	err = InitSubjectModules()
+	if err != nil {
+		return
+	}
+	err = initDayOfWeek()
+	if err != nil {
+		return
+	}
+	err = InitStudent()
+	if err != nil {
+		return
+	}
+	err = InitTeacher()
+	if err != nil {
+		return
+	}
+	err = InitClass()
+	if err != nil {
+		return
+	}
+	err = InitCourse()
+	if err != nil {
+		return
+	}
+	err = InitStudentsCourses()
+	if err != nil {
+		return
+	}
+	return
+}

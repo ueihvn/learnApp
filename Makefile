@@ -1,4 +1,4 @@
 dbup:
-	docker-compose -f docker-compose.yml up -d
+	docker-compose -f docker-compose.yml --env-file ./.env.dev up -d
 dbdown:
-	docker stop learnapp_db_1
+	docker-compose -f docker-compose.yml down

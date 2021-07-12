@@ -5,6 +5,41 @@ import (
 	"testing"
 )
 
+//test students_courses
+func TestGetAllStudentOfCourse(t *testing.T) {
+	students, err := GetAllStudentsOfCourse(1)
+	if err != nil {
+		t.Error(err)
+	} else {
+		fmt.Println(students)
+	}
+}
+
+func TestGetAllCourseOfStudent(t *testing.T) {
+	students, err := GetAllCoursesOfStudent(1)
+	if err != nil {
+		t.Error(err)
+	} else {
+		fmt.Println(students)
+	}
+}
+
+//test setupDb
+func TestInitDataDb(t *testing.T) {
+	err := InitDataDb()
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+//test for course
+func TestInitStudentsCourses(t *testing.T) {
+	err := InitStudentsCourses()
+	if err != nil {
+		t.Error(err)
+	}
+}
+
 // test for subject_module
 func TestInitSubjectModules(t *testing.T) {
 	err := InitSubjectModules()
@@ -38,19 +73,7 @@ func TestCreateStudent(t *testing.T) {
 		Password: "password",
 	}
 
-	st1 := Student{
-		Mail:     "st1mail@gmail.com",
-		FullName: "fullname st1 là 2",
-		UserName: "st1username",
-		Password: "st1password",
-	}
-
 	err := st.Create()
-	if err != nil {
-		t.Error(err)
-	}
-
-	err = st1.Create()
 	if err != nil {
 		t.Error(err)
 	}

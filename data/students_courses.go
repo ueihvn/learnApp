@@ -1,9 +1,9 @@
 package data
 
 type StudentCourse struct {
-	StudentId int
-	CourseId  int
-	JoinAt    string //yyyy-mm-dd
+	StudentId int    `db:"student_id"`
+	CourseId  int    `db:"course_id"`
+	JoinAt    string `db:"join_at"` //yyyy-mm-dd
 }
 
 func (studentCourse *StudentCourse) Create() (err error) {
@@ -61,5 +61,32 @@ func GetAllCoursesOfStudent(studentId int) (courses []Course, err error) {
 		}
 		courses = append(courses, course)
 	}
+	return
+}
+
+func InitStudentsCourses() (err error) {
+	mapCourse, err := GetAllCourseInit()
+	if err != nil {
+		return
+	}
+
+	mapStudent, err := GetAllStudentInit()
+	if err != nil {
+		return
+	}
+
+	for _, course := range mapCourse {
+		for _, student := range mapStudent {
+			studentCourse := StudentCourse{
+				StudentId: student.Id,
+				CourseId:  course.Id,
+			}
+			err = studentCourse.Create()
+			if err != nil {
+				return
+			}
+		}
+	}
+
 	return
 }

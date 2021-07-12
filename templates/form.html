@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form dang nhap</title>
+    <link rel="stylesheet" href="/static/css/form_styles.css">
+</head>
+
+<body>
+    <section class="sec_container">
+        <div class="container">
+            <h1 class="header" style='color: red;'>Form đăng nhập</h1>
+            
+            <div class='form_child'>
+                <label for="">Tên người dùng</label>
+                <input class="form_input" id="name" type="text" value="Hieu Le"  placeholder="Hieu Le">
+            </div>
+    
+            <div class='form_child'>
+                <label for="">Mật khẩu</label>
+                <input class="form_input" type="password" placeholder="Mat khau">
+            </div>
+    
+            <button class="login" id="login" onclick="changeSuccessText()">Đăng nhập</button>
+            <p style='color: red' id="success_text">{{.}}</p>
+        </div>
+    </section>
+    <script>
+        function changeSuccessText() {
+            var p_success_text = document.getElementById('success_text');
+            var input_name = document.getElementById('name');
+
+            p_success_text.innerHTML += `<span style='font-weight: bold; font-style: italic;'>Chao ban ${input_name.getAttribute('value')}</span>`;
+        }
+    </script>
+</body>
+</html>

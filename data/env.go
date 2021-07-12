@@ -8,7 +8,7 @@ import (
 )
 
 func LoadEnv() {
-	err := godotenv.Load(".env.dev")
+	err := godotenv.Load("../app.env.development.local")
 	if err != nil {
 		log.Fatal(err)
 	}

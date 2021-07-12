@@ -3,11 +3,11 @@ package data
 import "log"
 
 type Course struct {
-	Id        int
-	ClassId   int
-	StartDate string //yyyy-mm-dd
-	EndDate   string //yyyy-mm-dd
-	Grade     int
+	Id        int    `db:"id"`
+	ClassId   int    `db:"class_id"`
+	StartDate string `db:"start_date"` //yyyy-mm-dd
+	EndDate   string `db:"end_date"`   //yyyy-mm-dd
+	Grade     int    `db:"grade"`
 }
 
 func (course *Course) Create() (err error) {

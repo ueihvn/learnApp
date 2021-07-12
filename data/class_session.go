@@ -19,7 +19,7 @@ func (classSession *ClassSession) Create() (err error) {
 }
 
 func GetClassSessionByClassId(classId int) (classSessions []ClassSession, err error) {
-	rows, err := Db.Queryx("select id, classId, dayofweek_id, is_use start_time, end_time from class_session where id = $1", classId)
+	rows, err := Db.Queryx("select id, class_id, dayofweek_id, is_use start_time, end_time from class_session where id = $1", classId)
 	if err != nil {
 		return
 	}
@@ -37,7 +37,7 @@ func GetClassSessionByClassId(classId int) (classSessions []ClassSession, err er
 }
 
 func GetClassSessionByDayOfWeekId(dayOfWeekId int) (classSessions []ClassSession, err error) {
-	rows, err := Db.Queryx("select id, classId, dayofweek_id, is_use, start_time, end_time from class_session where id = $1", dayOfWeekId)
+	rows, err := Db.Queryx("select id, class_id, dayofweek_id, is_use, start_time, end_time from class_session where id = $1", dayOfWeekId)
 	if err != nil {
 		return
 	}

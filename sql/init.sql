@@ -59,7 +59,7 @@ CREATE TABLE courses_class_session (
   courses_id int not null,
   class_session_id int not null,
   subject_module_id int not null,
-  at_date date,
+  at_date date not null,
   PRIMARY KEY (courses_id, class_session_id)
 );
 
