@@ -64,6 +64,7 @@ func GetAllCoursesOfStudent(studentId int) (courses []Course, err error) {
 	return
 }
 
+/*
 func InitStudentsCourses() (err error) {
 	mapCourse, err := GetAllCourseInit()
 	if err != nil {
@@ -90,3 +91,4 @@ func InitStudentsCourses() (err error) {
 
 	return
 }
+*/

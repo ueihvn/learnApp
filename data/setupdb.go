@@ -32,6 +32,7 @@ func init() {
 	}
 }
 
+/*
 func InitDataDb() (err error) {
 	err = InitSubject()
 	if err != nil {
@@ -67,3 +68,4 @@ func InitDataDb() (err error) {
 	}
 	return
 }
+*/

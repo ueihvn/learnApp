@@ -68,6 +68,7 @@ CREATE TABLE subject_modules (
 
 CREATE TABLE courses (
   id int generated always as identity PRIMARY KEY,
+  resource_id int not null,
   name varchar(255) unique not null,
   description varchar(255),
   subject_id int not null,
@@ -77,6 +78,7 @@ CREATE TABLE courses (
 
 CREATE TABLE classes (
   id int generated always as identity PRIMARY KEY,
+  resource_id int not null,
   name varchar(255) unique not null,
   course_id int not null,
   start_date  date not null,
@@ -118,9 +120,13 @@ ALTER TABLE user_role_class ADD FOREIGN KEY (role_id) REFERENCES roles (id);
 
 ALTER TABLE user_role_class ADD FOREIGN KEY (class_id) REFERENCES classes (id);
 
+ALTER TABLE courses ADD FOREIGN KEY (subject_id) REFERENCES subjects (id) on delete cascade;
+
+ALTER TABLE courses ADD FOREIGN KEY (resource_id) REFERENCES resources (id) on delete cascade;
+
 ALTER TABLE classes ADD FOREIGN KEY (course_id) REFERENCES courses (id) on delete cascade;
 
-ALTER TABLE courses ADD FOREIGN KEY (subject_id) REFERENCES subjects (id) on delete cascade;
+ALTER TABLE classes ADD FOREIGN KEY (resource_id) REFERENCES resources (id) on delete cascade;
 
 ALTER TABLE class_session ADD FOREIGN KEY (class_id) REFERENCES classes (id) on delete cascade;
 

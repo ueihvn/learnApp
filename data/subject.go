@@ -3,8 +3,9 @@ package data
 import "log"
 
 type Subject struct {
-	Id   int    `db:"id"`
-	Type string `db:"type"`
+	Id       int    `db:"id"`
+	Type     string `db:"type"`
+	IsDelete bool   `db:"is_delete"`
 }
 
 func (subject *Subject) Create() (err error) {
@@ -13,17 +14,17 @@ func (subject *Subject) Create() (err error) {
 }
 
 func GetSubjectById(subjectId int) (subject Subject, err error) {
-	err = Db.QueryRow("select id from subjects where id = $1", subjectId).Scan(&subject.Type)
+	err = Db.QueryRowx("select id, type, is_delete from subjects where id = $1", subjectId).StructScan(&subject)
 	return
 }
 
 func GetSubjectByType(subjectType string) (subject Subject, err error) {
-	err = Db.QueryRowx("select id, type from subjects where type = $1", subjectType).StructScan(&subject)
+	err = Db.QueryRowx("select id, type, is_delete from subjects where type = $1", subjectType).StructScan(&subject)
 	return
 }
 
 func GetAllSubject() (subjects []Subject, err error) {
-	rows, err := Db.Queryx("select id, type from subjects")
+	rows, err := Db.Queryx("select id, type, is_delete from subjects")
 	if err != nil {
 		return
 	}
@@ -40,7 +41,7 @@ func GetAllSubject() (subjects []Subject, err error) {
 }
 
 func (subject *Subject) Update() (err error) {
-	_, err = Db.Exec(`update subjects set type = $2 where id = $1`, &subject.Id, &subject.Type)
+	_, err = Db.Exec(`update subjects set type = $2, is_delete = $3 where id = $1`, &subject.Id, &subject.Type, &subject.IsDelete)
 	return
 }
 
@@ -56,6 +57,8 @@ func InitSubject() (err error) {
 		{Type: "Hóa Học"},
 		{Type: "Sinh Học"},
 		{Type: "Tiếng Anh"},
+		{Type: "IELTS"},
+		{Type: "TOEIC"},
 	}
 
 	for _, subject := range subjects {
@@ -71,7 +74,7 @@ func InitSubject() (err error) {
 
 func GetAllSubjectInit() (mapSubject map[string]Subject, err error) {
 	mapSubject = map[string]Subject{}
-	subjectInit := []string{"Toán Học", "Vật Lý", "Hóa Học", "Sinh Học", "Tiếng Anh"}
+	subjectInit := []string{"Toán Học", "Vật Lý", "Hóa Học", "Sinh Học", "Tiếng Anh", "IELTS", "TOEIC"}
 
 	for _, subjectType := range subjectInit {
 		subject, err := GetSubjectByType(subjectType)

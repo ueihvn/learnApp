@@ -24,6 +24,7 @@ func TestGetAllCourseOfStudent(t *testing.T) {
 	}
 }
 
+/*
 //test setupDb
 func TestInitDataDb(t *testing.T) {
 	err := InitDataDb()
@@ -32,6 +33,7 @@ func TestInitDataDb(t *testing.T) {
 	}
 }
 
+
 //test for course
 func TestInitStudentsCourses(t *testing.T) {
 	err := InitStudentsCourses()
@@ -39,6 +41,7 @@ func TestInitStudentsCourses(t *testing.T) {
 		t.Error(err)
 	}
 }
+*/
 
 // test for subject_module
 func TestInitSubjectModules(t *testing.T) {
